@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:assignment_flutter/data/models/todo.dart';
 import 'package:assignment_flutter/data/models/photo.dart';
@@ -31,11 +32,22 @@ class LocalDataSource {
   }
 
   // Get a photo by id
-  Future<PhotoModel> getCachedPhoto(int id) async {
-    final box = await Hive.openBox<PhotoModel>(photosBoxName);
+
+
+Future<PhotoModel> getCachedPhoto(int id) async {
+  late Box<PhotoModel> box;
+  try {
+    box = await Hive.openBox<PhotoModel>(photosBoxName);
     final photo = box.get(id);
-    await box.close();
-    if (photo == null) throw Exception('No cached photo for id $id');
+    if (photo == null) {
+      throw Exception('No cached photo for id $id');
+    }
     return photo;
+  } catch (e) {
+    debugPrint('Error accessing cached photo: $e');
+    rethrow;
+  } finally {
+    await box.close();
   }
+}
 }

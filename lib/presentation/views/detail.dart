@@ -32,14 +32,15 @@ class DetailPage extends StatelessWidget {
             Text('ID: ${todo.id}'),
             const SizedBox(height: 24),
             if (photo.thumbnailUrl != null)
-              Image.network(photo.thumbnailUrl, width: 100, height: 100),
+              // Image.(photo.thumbnailUrl, width: 100, height: 100),
+              Text("Fucking image goes here"),
             Text(photo.title),
           ],
         ),
       );
     } else if (state is TodoError) {
       print(state.message);
-      return Center(child: Text(state.message, style: const TextStyle(color: Colors.red)));
+      return Center(child: Text("Not connected to Internet,are you poor?", style: const TextStyle(color: Colors.red)));
     }
     else if(state is TodoLoading){
       return const Center(child: CircularProgressIndicator());
