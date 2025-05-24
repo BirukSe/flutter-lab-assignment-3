@@ -19,7 +19,9 @@ class Dashboard extends StatelessWidget {
           if (state is TodoError) {
             ScaffoldMessenger.of(context)
                 .showSnackBar(SnackBar(content: Text(state.message)));
-                print(state.message);
+            print(state.message);
+          } else if (state is TodoSelected) {
+            context.go('/detail');
           }
         },
         builder: (context, state) {
@@ -34,9 +36,8 @@ class Dashboard extends StatelessWidget {
                     Expanded(
                       child: GestureDetector(
                         onTap: () {
-  context.read<TodoBloc>().add(SelectTodo(state.todos[first]));
-  context.go('/detail');
-},
+                          context.read<TodoBloc>().add(SelectTodo(state.todos[first]));
+                        },
                         child: ListTile(
                           title: Text(state.todos[first].title),
                         ),
@@ -44,8 +45,13 @@ class Dashboard extends StatelessWidget {
                     ),
                     if (second < state.todos.length)
                       Expanded(
-                        child: ListTile(
-                          title: Text(state.todos[second].title),
+                        child: GestureDetector(
+                          onTap: () {
+                            context.read<TodoBloc>().add(SelectTodo(state.todos[second]));
+                          },
+                          child: ListTile(
+                            title: Text(state.todos[second].title),
+                          ),
                         ),
                       )
                     else
@@ -55,18 +61,15 @@ class Dashboard extends StatelessWidget {
               },
             );
           }
-          // Return a default widget if state is not TodosLoaded
-           if (state is TodoError) {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text(state.message)));
-                print(state.message);
+          if (state is TodoError) {
+            return Center(
+              child: Text(state.message),
+            );
           }
-          if(state is TodoLoading){
-             return const Center(child: CircularProgressIndicator());
-
+          if (state is TodoLoading) {
+            return const Center(child: CircularProgressIndicator());
           }
-          return Text("What the fuck is wrong with u boy");
-         
+          return const Center(child: Text("Loading..."));
         },
       ),
     );

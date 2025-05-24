@@ -26,7 +26,9 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
       emit(TodoLoading());
       try {
         final todoRepository = TodoRepositoryImpl(remoteDataSource: RemoteDataSource(), localDataSource: LocalDataSource());
-        PhotoModel photos = await todoRepository.fetchPhotos(event.album.id);
+        List<PhotoModel> photos = await todoRepository.fetchPhotos(event.album.id);
+        print("state print ongoing");
+        print(photos);
         emit(TodoSelected(todo: event.album, photos: photos));
       } catch (e) {
         emit(TodoError(e.toString()));

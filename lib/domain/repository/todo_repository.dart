@@ -5,7 +5,7 @@ import 'package:assignment_flutter/domain/entity/todo.dart';
 
 abstract class TodoRepository {
   Future<List<Todo>> fetchTodos();
-  Future<Photo> fetchPhotos(int id);
+  Future<List<Photo>> fetchPhotos(int id);
  
  
 

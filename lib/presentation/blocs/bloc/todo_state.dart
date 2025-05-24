@@ -19,6 +19,6 @@ class TodoError extends TodoState {
 
 class TodoSelected extends TodoState {
   final TodoModel todo;
-  final PhotoModel photos;
+  final List<PhotoModel> photos;
   TodoSelected({required this.todo, required this.photos});
 } 

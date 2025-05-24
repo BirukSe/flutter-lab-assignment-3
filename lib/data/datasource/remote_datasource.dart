@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:assignment_flutter/data/models/photo.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class RemoteDataSource {
@@ -16,11 +17,17 @@ class RemoteDataSource {
     }
   }
 
-Future<Map<String, dynamic>> fetchPhotos(int id) async {
-  final response = await http.get(Uri.parse('$baseUrl/photos/$id'));
+Future<List<dynamic>> fetchPhotos(int id) async {
+  print("making api requres");
+  final response = await http.get(Uri.parse('$baseUrl/photos?albumId=$id'));
+  print('the eesult is');
+  print(response.body);
+  print("my status code");
+  print(response.statusCode);
+
   print("photo id: $id");
   if (response.statusCode == 200) {
-    return jsonDecode(response.body) as Map<String, dynamic>;
+    return jsonDecode(response.body) as List<dynamic>;
   } else {
     throw Exception('Failed to load photo');
   }

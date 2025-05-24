@@ -34,15 +34,20 @@ class TodoRepositoryImpl implements TodoRepository {
     }
   }
 @override
-Future<PhotoModel> fetchPhotos(int id) async {
+Future<List<PhotoModel>> fetchPhotos(int id) async {
   try {
-    print("i am fetching the photo");
-    final photoJson = await remoteDataSource.fetchPhotos(id);
-    final photo= PhotoModel.fromJson(photoJson);
-    await localDataSource.cachePhoto(photo);
-    return photo;
+    print("i am going to fetch todos");
+      final remoteTodos = await remoteDataSource.fetchPhotos(id);
+     
+      final todos= remoteTodos.map((json)=>PhotoModel.fromJson(json)).toList();
+      //  await localDataSource.cacheTodos(todos);
+      print("my answer is");
+      print(todos);
+      print(todos.toList());
+      // await localDataSource.cacheTodos(todos);
+      return todos;
   } catch (e) {
-    await localDataSource.getCachedPhoto(id);
+    // await localDataSource.getCachedPhoto(id);
     print("poshehal");
     throw Exception('Failed to fetch photo: $e');
   }

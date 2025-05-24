@@ -34,4 +34,8 @@ class PhotoModel extends Photo{
       'thumbnailUrl': thumbnailUrl,
     };
   }
+   @override
+  String toString() {
+    return 'PhotoModel(id: $id, title: $title, thumbnailUrl: $thumbnailUrl)';
+  }
 }
